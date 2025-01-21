@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Menu</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        body {
+            background-color: #121212;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .menu-container {
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* Top Section with High Score and Game Coin */
+        .top-section {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-between;
+            width: 70%;
+        }
+
+        .top-item {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            background-color: white;
+            color: #121212;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-item .material-icons {
+            margin-right: 8px;
+        }
+
+        /* Play Button */
+        .play-button {
+            padding: 15px 30px;
+            background-color: #6200ea;
+            color: white;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 100px;
+        }
+
+        .play-button:hover {
+            background-color: #3700b3;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Top Section with High Score and Gamecoin -->
+    <div class="top-section">
+        <!-- High Score -->
+        <div class="top-item">
+            <span class="material-icons">leaderboard</span>
+            <span id="highScore">High Score: 0</span>
+        </div>
+        <!-- Game Coin -->
+        <div class="top-item">
+            <span class="material-icons">attach_money</span>
+            <span id="gameCoin">Coins: 0</span>
+        </div>
+    </div>
+
+    <!-- Play Button -->
+    <button class="play-button" onclick="startGame()">Play</button>
+
+    <script>
+        // Function to fetch saved data from local storage
+        function loadGameData() {
+            let highScore = localStorage.getItem('highScore') || 0;
+            let gameCoins = localStorage.getItem('gameCoins') || 0;
+
+            document.getElementById('highScore').textContent = 'High Score: ' + highScore;
+            document.getElementById('gameCoin').textContent = 'Coins: ' + gameCoins;
+        }
+
+        // Start Game Function
+        function startGame() {
+            window.location.href = '1.html';
+        }
+
+        // Load Game Data on Page Load
+        loadGameData();
+    </script>
+</body>
+</html>

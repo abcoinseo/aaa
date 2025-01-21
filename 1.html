@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PFS Shooting Game</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+   /* CSS Styles */
+body {
+  background-color: black;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  height: 100vh;
+}
+
+canvas {
+  display: block;
+  background-color: black;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#restartPopup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  display: none;
+}
+
+#restartPopup button {
+  margin: 10px 5px;
+  padding: 10px 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#restartPopup button:hover {
+  background-color: darkgreen;
+}
+
+#menuButton {
+  background-color: blue;
+}
+
+#menuButton:hover {
+  background-color: darkblue;
+}
+
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+  <div id="restartPopup">
+    <h2>Game Over</h2>
+    <p>Your Score: <span id="finalScore"></span></p>
+    <button id="restartButton">Restart</button>
+  </div>
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const restartPopup = document.getElementById("restartPopup");
+    const finalScore = document.getElementById("finalScore");
+    const restartButton = document.getElementById("restartButton");
+
+    // Adjust canvas size to fit all screen sizes
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Image and sound assets
+    const playerImage = new Image();
+    playerImage.src = "coin.png";
+    const enemyImages = [
+      new Image(),
+      new Image(),
+      new Image(),
+    ];
+    enemyImages[0].src = "1.png";
+    enemyImages[1].src = "2.png";
+    enemyImages[2].src = "3.png";
+
+    const bgMusic = new Audio('bg_music.mp3');
+    const shootSound = new Audio('4.mp3');
+    const enemyHitSound = new Audio('2.mp3');
+    const gameOverSound = new Audio('1.mp3');
+    const bulletSound = new Audio('5.mp3');
+    const killEffectImage = new Image();
+    killEffectImage.src = "1.gif";
+    const enemyBulletImage = new Image();
+    enemyBulletImage.src = "7.png";
+    const playerBulletImage = new Image();
+    playerBulletImage.src = "11.png";
+    const coinImage = new Image();
+    coinImage.src = "9.png";
+
+    // Player, enemies, bullets, coins, etc.
+    const player = {
+      x: canvas.width / 2,
+      y: canvas.height - 100,
+      size: 100,
+      bullets: [],
+      coins: 0,
+    };
+
+    const enemies = [];
+    const enemyBullets = [];
+    const coins = [];
+    const bulletSpeed = 5;
+    const enemyBulletSpeed = 3;
+    let score = 0;
+    let highScore = parseInt(localStorage.getItem("highScore")) || 0;
+    let gameOver = false;
+    let isShooting = false;
+
+    // Load the saved game coins from local storage
+    function loadGameData() {
+      const savedCoins = localStorage.getItem("gameCoins");
+      if (savedCoins) {
+        player.coins = parseInt(savedCoins);
+      }
+    }
+
+    function saveGameData() {
+      localStorage.setItem("gameCoins", player.coins);
+    }
+
+    function createEnemy() {
+      const x = Math.random() * (canvas.width - 100);
+      const y = 0;
+      const speed = Math.random() * 2 + 1;
+      const imageIndex = Math.floor(Math.random() * enemyImages.length);
+      enemies.push({ x, y, size: 100, speed, imageIndex });
+    }
+
+    function createCoin(x, y) {
+      coins.push({ x, y, size: 50 });
+    }
+
+    function drawPlayer() {
+      ctx.drawImage(playerImage, player.x - player.size / 2, player.y - player.size / 2, player.size, player.size);
+    }
+
+    function drawEnemies() {
+      enemies.forEach((enemy) => {
+        ctx.drawImage(enemyImages[enemy.imageIndex], enemy.x - enemy.size / 2, enemy.y - enemy.size / 2, enemy.size, enemy.size);
+      });
+    }
+
+    function drawCoins() {
+      coins.forEach((coin) => {
+        ctx.drawImage(coinImage, coin.x - coin.size / 2, coin.y - coin.size / 2, coin.size, coin.size);
+      });
+    }
+
+    function drawBullets() {
+      player.bullets.forEach((bullet) => {
+        ctx.drawImage(playerBulletImage, bullet.x - 10, bullet.y - 10, 20, 20);
+      });
+
+      enemyBullets.forEach((bullet) => {
+        ctx.drawImage(enemyBulletImage, bullet.x - 10, bullet.y - 10, 20, 20);
+      });
+    }
+
+    function moveBullets() {
+      player.bullets.forEach((bullet, index) => {
+        bullet.y -= bulletSpeed;
+        bullet.x += bullet.vx;
+        bullet.y += bullet.vy;
+
+        if (bullet.y < 0 || bullet.x < 0 || bullet.x > canvas.width || bullet.y > canvas.height) {
+          player.bullets.splice(index, 1);
+        }
+      });
+
+      enemyBullets.forEach((bullet, index) => {
+        bullet.x += bullet.vx;
+        bullet.y += bullet.vy;
+
+        if (bullet.x < 0 || bullet.x > canvas.width || bullet.y > canvas.height) {
+          enemyBullets.splice(index, 1);
+        }
+      });
+    }
+
+    function moveEnemies() {
+      enemies.forEach((enemy, enemyIndex) => {
+        enemy.y += enemy.speed;
+
+        if (Math.random() < 0.03) {
+          const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+          const vx = Math.cos(angle) * enemyBulletSpeed;
+          const vy = Math.sin(angle) * enemyBulletSpeed;
+          enemyBullets.push({ x: enemy.x, y: enemy.y, vx, vy });
+        }
+
+        if (enemy.y > canvas.height) {
+          enemies.splice(enemyIndex, 1);
+        }
+      });
+    }
+
+    function checkCollisions() {
+      player.bullets.forEach((bullet, bulletIndex) => {
+        enemies.forEach((enemy, enemyIndex) => {
+          const dist = Math.hypot(bullet.x - enemy.x, bullet.y - enemy.y);
+          if (dist < enemy.size / 2) {
+            player.bullets.splice(bulletIndex, 1);
+            enemies.splice(enemyIndex, 1);
+            score += 10;
+
+            createCoin(enemy.x, enemy.y);
+            enemyHitSound.play();
+            ctx.drawImage(killEffectImage, enemy.x - 50, enemy.y - 50, 100, 100);
+
+            if (score > highScore) {
+              highScore = score;
+              localStorage.setItem("highScore", highScore);
+            }
+          }
+        });
+      });
+
+      coins.forEach((coin, coinIndex) => {
+        const dist = Math.hypot(player.x - coin.x, player.y - coin.y);
+        if (dist < player.size / 2 + coin.size / 2) {
+          coins.splice(coinIndex, 1);
+          player.coins += 1;
+          score += 5;
+          saveGameData(); // Save coins in localStorage
+        }
+      });
+
+      enemyBullets.forEach((bullet, bulletIndex) => {
+        const dist = Math.hypot(player.x - bullet.x, player.y - bullet.y);
+        if (dist < player.size / 2) {
+          gameOver = true;
+          gameOverSound.play();
+        }
+      });
+    }
+
+    function drawScore() {
+      ctx.fillStyle = "white";
+      ctx.font = "20px Arial";
+      ctx.fillText(`Score: ${score}`, 10, 30);
+      ctx.fillText(`High Score: ${highScore}`, 10, 60);
+      ctx.fillText(`Coins: ${player.coins}`, 10, 90);
+    }
+
+    function restartGame() {
+      score = 0;
+      enemies.length = 0;
+      enemyBullets.length = 0;
+      player.bullets.length = 0;
+      coins.length = 0;
+      gameOver = false;
+      restartPopup.style.display = "none";
+
+      bgMusic.currentTime = 0;
+      bgMusic.play();
+      
+      gameLoop();
+    }
+
+    function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawPlayer();
+      drawEnemies();
+      drawCoins();
+      drawBullets();
+      drawScore();
+
+      moveBullets();
+      moveEnemies();
+      checkCollisions();
+
+      if (gameOver) {
+        finalScore.textContent = score;
+        restartPopup.style.display = "block";
+        bgMusic.pause();
+      } else {
+        requestAnimationFrame(gameLoop);
+      }
+    }
+
+    canvas.addEventListener("touchmove", (e) => {
+      const touch = e.touches[0];
+      player.x = touch.clientX;
+      player.y = touch.clientY;
+
+      if (!isShooting) {
+        isShooting = true;
+        const shootInterval = setInterval(() => {
+          if (!isShooting) {
+            clearInterval(shootInterval);
+          } else {
+            const bullet = { x: player.x, y: player.y, vx: 0, vy: -bulletSpeed };
+            player.bullets.push(bullet);
+            shootSound.play();
+          }
+        }, 100);
+      }
+    });
+
+    canvas.addEventListener("touchend", () => {
+      isShooting = false;
+    });
+
+    restartButton.addEventListener("click", restartGame);
+
+    setInterval(createEnemy, 1000);
+
+    loadGameData();
+    bgMusic.play();
+    gameLoop();
+  </script>
+  <script src="script.js"></script>
+
+</body>
+</html>
