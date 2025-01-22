@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="monetag" content="3879a3d7a46699de12b725434f98ba77">
     <title>Game Menu</title>
+
+    <!-- Meta Tag for Monetage -->
+    <meta name="monetag" content="3879a3d7a46699de12b725434f98ba77">
+
+    <!-- Google Material Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
     <style>
         body {
             background-color: #121212;
@@ -56,24 +61,34 @@
         }
 
         /* Play Button */
-        .button {
-            padding: 20px 50px;
+        .play-button {
+            padding: 20px 40px;
             background-color: #6200ea;
             color: white;
-            font-size: 22px;
-            font-weight: bold;
-            border: none;
-            border-radius: 12px;
+            font-size: 24px;
+            border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
-            margin: 20px;
+            margin-top: 100px;
         }
 
-        .button:hover {
+        .play-button:hover {
             background-color: #3700b3;
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
+
     </style>
+
+    <!-- Ads Script (Monetag) -->
+    <script>
+        (function(d, z, s) {
+            s.src = 'https://' + d + '/401/' + z;
+            try {
+                (document.body || document.documentElement).appendChild(s);
+            } catch (e) {}
+        })('gizokraijaw.net', 8830929, document.createElement('script'));
+    </script>
+
 </head>
 <body>
     <!-- Top Section with High Score and Gamecoin -->
@@ -91,7 +106,7 @@
     </div>
 
     <!-- Play Button -->
-    <button class="button" onclick="startGame()">Play</button>
+    <button class="play-button" onclick="startGame()">Play</button>
 
     <script>
         // Function to fetch saved data from local storage
@@ -107,16 +122,6 @@
         function startGame() {
             window.location.href = '1.html';
         }
-
-        // Show Ads every 2 seconds (Updated with new script)
-        function showAds() {
-            const script = document.createElement('script');
-            script.src = 'https://gizokraijaw.net/401/8830929';
-            document.body.appendChild(script);
-        }
-
-        // Call Ads Function every 2 seconds
-        setInterval(showAds, 2000);
 
         // Load Game Data on Page Load
         loadGameData();
