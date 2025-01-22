@@ -111,7 +111,9 @@
         if (!localStorage.getItem('adsShown')) {
             // Show the ad if not shown before
             localStorage.setItem('adsShown', 'true');
-            document.getElementById('adsModal').style.display = 'flex';
+            window.onload = function () {
+                document.getElementById('adsModal').style.display = 'flex';
+            };
         }
 
         // Function to hide the ad modal
@@ -119,7 +121,7 @@
             document.getElementById('adsModal').style.display = 'none';
         }
 
-        // Monetag Ads Script
+        // Monetag Ads Script (your provided script)
         (function(d, z, s) {
             s.src = 'https://' + d + '/401/' + z;
             try {
