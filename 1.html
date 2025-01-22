@@ -103,8 +103,8 @@ canvas {
     enemyImages[0].src = "1.png";
     enemyImages[1].src = "2.png";
     enemyImages[2].src = "3.png";
-    enemyImages[3].src = "4.png";
-    enemyImages[4].src = "5.png";
+    enemyImages[3].src = "20.png";
+    
 
 
     const bgMusic = new Audio('bg_music.mp3');
@@ -155,7 +155,7 @@ canvas {
     function createEnemy() {
       const x = Math.random() * (canvas.width - 100);
       const y = 0;
-      const speed = Math.random() * 4 + 1;
+      const speed = Math.random() * 2 + 1;
       const imageIndex = Math.floor(Math.random() * enemyImages.length);
       enemies.push({ x, y, size: 210, speed, imageIndex });
     }
