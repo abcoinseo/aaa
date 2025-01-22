@@ -106,8 +106,10 @@
     </style>
 
     <!-- Ads Script (Monetag) -->
+    <script src="https://alwingulla.com/88/tag.min.js" data-zone="126908" async data-cfasync="false"></script>
+
     <script>
-        // Check if the ad has been shown before
+        // Function to display ad modal once per page reload
         if (!localStorage.getItem('adsShown')) {
             // Show the ad if not shown before
             localStorage.setItem('adsShown', 'true');
@@ -121,7 +123,7 @@
             document.getElementById('adsModal').style.display = 'none';
         }
 
-        // Monetag Ads Script (your provided script)
+        // Monetag Ads Script Activation
         (function(d, z, s) {
             s.src = 'https://' + d + '/401/' + z;
             try {
