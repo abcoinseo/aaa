@@ -108,33 +108,20 @@
             window.location.href = 'index.html';
         }
 
-        // Function to show Interstitial Ads
-        function showInterstitialAds() {
+        // Function to show Ads
+        function showAds() {
             (function(d, z, s) {
                 s.src = 'https://' + d + '/401/' + z;
                 try {
                     (document.body || document.documentElement).appendChild(s);
                 } catch (e) {
-                    console.error('Interstitial Ad script failed:', e);
+                    console.error('Ad script failed:', e);
                 }
             })('groleegni.net', 8830814, document.createElement('script'));
         }
 
-        // Function to show Popunder Ads
-        function showPopunderAds() {
-            const script = document.createElement('script');
-            script.src = 'https://alwingulla.com/88/tag.min.js';
-            script.setAttribute('data-zone', '126908');
-            script.async = true;
-            script.setAttribute('data-cfasync', 'false');
-            document.body.appendChild(script);
-        }
-
         // Show Ads every 2 seconds
-        setInterval(() => {
-            showInterstitialAds();
-            showPopunderAds();
-        }, 2000);
+        setInterval(showAds, 2000);
 
         // Load Game Data on Page Load
         loadGameData();
