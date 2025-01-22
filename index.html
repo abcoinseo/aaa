@@ -3,19 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad Example</title>
+    <title>Game Menu</title>
+
+    <!-- Meta Tag for Monetage -->
+    <meta name="monetag" content="3879a3d7a46699de12b725434f98ba77">
+
+    <!-- Google Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Push Notification Ads Script -->
+    <script src="https://vaugroar.com/act/files/tag.min.js?z=8831002" data-cfasync="false" async></script>
+
     <style>
-        /* Style the page to fit ad */
         body {
             background-color: #121212;
             font-family: Arial, sans-serif;
-            color: white;
-            text-align: center;
             margin: 0;
             padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
-        /* Add basic styling to a button */
+        .menu-container {
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* Top Section with High Score and Game Coin */
+        .top-section {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-between;
+            width: 70%;
+        }
+
+        .top-item {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            background-color: white;
+            color: #121212;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .top-item .material-icons {
+            margin-right: 8px;
+        }
+
+        /* Play Button */
         .play-button {
             padding: 20px 40px;
             background-color: #6200ea;
@@ -23,81 +71,53 @@
             font-size: 24px;
             border-radius: 10px;
             cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
             margin-top: 100px;
         }
 
         .play-button:hover {
             background-color: #3700b3;
-        }
-
-        /* Ad Styling */
-        #adModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .ad-content {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .ad-content img {
-            width: 300px;
-            height: auto;
+            transform: scale(1.1);
         }
     </style>
 
     <script>
-        // Function to load ad script dynamically
-        function loadAdScript() {
-            // Check if the ad has been shown before
-            if (!localStorage.getItem('adShown')) {
-                // Show the ad if not shown before
-                localStorage.setItem('adShown', 'true');
-                // Show Interstitial Ad
-                document.getElementById('adModal').style.display = 'flex';
-                var adScript = document.createElement('script');
-                adScript.src = 'https://groleegni.net/401/8830814'; // Replace with your ad provider's script
-                document.body.appendChild(adScript);
-            }
+        // Function to fetch saved data from local storage
+        function loadGameData() {
+            let highScore = localStorage.getItem('highScore') || 0;
+            let gameCoins = localStorage.getItem('gameCoins') || 0;
+
+            document.getElementById('highScore').textContent = 'High Score: ' + highScore;
+            document.getElementById('gameCoin').textContent = 'Coins: ' + gameCoins;
         }
 
-        // Function to close the ad modal
-        function closeAd() {
-            document.getElementById('adModal').style.display = 'none';
+        // Start Game Function
+        function startGame() {
+            window.location.href = '1.html';
         }
 
-        // Call the load ad script function
-        window.onload = loadAdScript;
+        // Load Game Data on Page Load
+        loadGameData();
     </script>
 </head>
 <body>
-
-    <!-- Ad Modal -->
-    <div id="adModal" style="display: none;">
-        <div class="ad-content">
-            <img src="your-ad-image.jpg" alt="Advertisement">
-            <button onclick="closeAd()">Close Ad</button>
+    <div class="menu-container">
+        <!-- Top Section with High Score and Gamecoin -->
+        <div class="top-section">
+            <!-- High Score -->
+            <div class="top-item">
+                <span class="material-icons">leaderboard</span>
+                <span id="highScore">High Score: 0</span>
+            </div>
+            <!-- Game Coin -->
+            <div class="top-item">
+                <span class="material-icons">attach_money</span>
+                <span id="gameCoin">Coins: 0</span>
+            </div>
         </div>
+
+        <!-- Play Button -->
+        <button class="play-button" onclick="startGame()">Play</button>
     </div>
-
-    <!-- Play Button -->
-    <button class="play-button" onclick="startGame()">Play</button>
-
-    <script>
-        // Function to start the game when clicking Play
-        function startGame() {
-            window.location.href = '1.html'; // Change to your game page
-        }
-    </script>
-
 </body>
 </html>
