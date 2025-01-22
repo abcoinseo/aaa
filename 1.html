@@ -210,7 +210,7 @@ canvas {
       enemies.forEach((enemy, enemyIndex) => {
         enemy.y += enemy.speed;
 
-        if (Math.random() < 0.02) {
+        if (Math.random() < 0.01) {
           const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
           const vx = Math.cos(angle) * enemyBulletSpeed;
           const vy = Math.sin(angle) * enemyBulletSpeed;
