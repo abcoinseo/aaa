@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="monetag" content="3879a3d7a46699de12b725434f98ba77">
     <title>Game Menu</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
@@ -54,22 +55,32 @@
             margin-right: 8px;
         }
 
-        /* Play Button */
-        .play-button {
-            padding: 15px 30px;
+        /* Buttons */
+        .button {
+            padding: 20px 50px;
             background-color: #6200ea;
             color: white;
-            font-size: 20px;
-            border-radius: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 100px;
+            transition: background-color 0.3s, transform 0.2s;
+            margin: 20px;
         }
 
-        .play-button:hover {
+        .button:hover {
             background-color: #3700b3;
+            transform: scale(1.05);
         }
 
+        .exit-button {
+            background-color: #d32f2f;
+        }
+
+        .exit-button:hover {
+            background-color: #b71c1c;
+        }
     </style>
 </head>
 <body>
@@ -88,7 +99,9 @@
     </div>
 
     <!-- Play Button -->
-    <button class="play-button" onclick="startGame()">Play</button>
+    <button class="button" onclick="startGame()">Play</button>
+    <!-- Exit Button -->
+    <button class="button exit-button" onclick="exitGame()">Exit</button>
 
     <script>
         // Function to fetch saved data from local storage
@@ -102,7 +115,15 @@
 
         // Start Game Function
         function startGame() {
-            window.location.href = '1.html';
+            window.location.href = 'index.html';
+        }
+
+        // Exit Game Function
+        function exitGame() {
+            if (confirm('Are you sure you want to exit the game?')) {
+                // Close the browser tab
+                window.close();
+            }
         }
 
         // Load Game Data on Page Load
