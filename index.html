@@ -77,10 +77,49 @@
             transform: scale(1.1);
         }
 
+        /* Ads Modal */
+        .ads-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ads-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ads-content img {
+            width: 300px;
+            height: auto;
+        }
     </style>
 
     <!-- Ads Script (Monetag) -->
     <script>
+        // Check if the ad has been shown before
+        if (!localStorage.getItem('adsShown')) {
+            // Show the ad if not shown before
+            localStorage.setItem('adsShown', 'true');
+            document.getElementById('adsModal').style.display = 'flex';
+        }
+
+        // Function to hide the ad modal
+        function closeAd() {
+            document.getElementById('adsModal').style.display = 'none';
+        }
+
+        // Monetag Ads Script
         (function(d, z, s) {
             s.src = 'https://' + d + '/401/' + z;
             try {
@@ -88,9 +127,16 @@
             } catch (e) {}
         })('gizokraijaw.net', 8830929, document.createElement('script'));
     </script>
-
 </head>
 <body>
+    <!-- Ads Modal -->
+    <div id="adsModal" class="ads-modal">
+        <div class="ads-content">
+            <img src="your-ad-image.png" alt="Advertisement">
+            <button onclick="closeAd()">Close</button>
+        </div>
+    </div>
+
     <!-- Top Section with High Score and Gamecoin -->
     <div class="top-section">
         <!-- High Score -->
