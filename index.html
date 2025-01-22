@@ -108,15 +108,15 @@
             window.location.href = 'index.html';
         }
 
-        // Show Ads after 5 seconds
+        // Show Ads every 2 seconds
         function showAds() {
             const script = document.createElement('script');
             script.src = 'https://groleegni.net/401/8830814';
             document.body.appendChild(script);
         }
 
-        // Call Ads Function after 5 seconds
-        setTimeout(showAds, 5000);
+        // Call Ads Function every 2 seconds
+        setInterval(showAds, 2000);
 
         // Load Game Data on Page Load
         loadGameData();
