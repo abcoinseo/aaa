@@ -55,7 +55,7 @@
             margin-right: 8px;
         }
 
-        /* Buttons */
+        /* Play Button */
         .button {
             padding: 20px 50px;
             background-color: #6200ea;
@@ -72,14 +72,6 @@
         .button:hover {
             background-color: #3700b3;
             transform: scale(1.05);
-        }
-
-        .exit-button {
-            background-color: #d32f2f;
-        }
-
-        .exit-button:hover {
-            background-color: #b71c1c;
         }
     </style>
 </head>
@@ -100,8 +92,6 @@
 
     <!-- Play Button -->
     <button class="button" onclick="startGame()">Play</button>
-    <!-- Exit Button -->
-    <button class="button exit-button" onclick="exitGame()">Exit</button>
 
     <script>
         // Function to fetch saved data from local storage
@@ -118,13 +108,15 @@
             window.location.href = 'index.html';
         }
 
-        // Exit Game Function
-        function exitGame() {
-            if (confirm('Are you sure you want to exit the game?')) {
-                // Close the browser tab
-                window.close();
-            }
+        // Show Ads after 5 seconds
+        function showAds() {
+            const script = document.createElement('script');
+            script.src = 'https://groleegni.net/401/8830814';
+            document.body.appendChild(script);
         }
+
+        // Call Ads Function after 5 seconds
+        setTimeout(showAds, 5000);
 
         // Load Game Data on Page Load
         loadGameData();
