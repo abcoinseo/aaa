@@ -73,6 +73,50 @@
             background-color: #3700b3;
             transform: scale(1.05);
         }
+
+        /* Popup Ad Styles */
+        .ad-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ad-popup-content {
+            width: 300px;
+            height: 250px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .ad-popup-content iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .close-ad {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -93,8 +137,16 @@
     <!-- Play Button -->
     <button class="button" onclick="startGame()">Play</button>
 
+    <!-- Ad Popup -->
+    <div class="ad-popup" id="adPopup">
+        <div class="ad-popup-content">
+            <button class="close-ad" onclick="closeAd()">×</button>
+            <iframe src="https://groleegni.net/401/8830814" frameborder="0"></iframe>
+        </div>
+    </div>
+
     <script>
-        // Function to fetch saved data from local storage
+        // Load saved data from local storage
         function loadGameData() {
             let highScore = localStorage.getItem('highScore') || 0;
             let gameCoins = localStorage.getItem('gameCoins') || 0;
@@ -103,27 +155,29 @@
             document.getElementById('gameCoin').textContent = 'Coins: ' + gameCoins;
         }
 
-        // Start Game Function
+        // Start game
         function startGame() {
-            window.location.href = '1.html';
+            window.location.href = 'index.html';
         }
 
-        // Function to show Ads
-        function showAds() {
-            (function(d, z, s) {
-                s.src = 'https://' + d + '/401/' + z;
-                try {
-                    (document.body || document.documentElement).appendChild(s);
-                } catch (e) {
-                    console.error('Ad script failed:', e);
-                }
-            })('groleegni.net', 8830814, document.createElement('script'));
+        // Show Ads
+        function showAd() {
+            const adPopup = document.getElementById('adPopup');
+            adPopup.style.display = 'flex';
         }
 
-        // Show Ads every 2 seconds
-        setInterval(showAds, 2000);
+        // Close Ad
+        function closeAd() {
+            const adPopup = document.getElementById('adPopup');
+            adPopup.style.display = 'none';
+        }
 
-        // Load Game Data on Page Load
+        // Show Ads every 2-3 seconds
+        setInterval(() => {
+            showAd();
+        }, 2000 + Math.random() * 1000); // 2 to 3 seconds random
+
+        // Load Game Data on page load
         loadGameData();
     </script>
 </body>
