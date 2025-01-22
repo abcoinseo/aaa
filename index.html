@@ -73,47 +73,6 @@
             background-color: #3700b3;
             transform: scale(1.05);
         }
-
-        /* Ad Popup Banner */
-        .ad-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            display: none;
-            z-index: 9999;
-            width: 80%;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        .ad-popup .close-ad {
-            background-color: red;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        /* For Ad Banner Close Button */
-        .ad-banner {
-            background-color: #000;
-            color: #fff;
-            padding: 10px;
-            font-size: 18px;
-            display: flex;
-            justify-content: center;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        }
     </style>
 </head>
 <body>
@@ -134,26 +93,8 @@
     <!-- Play Button -->
     <button class="button" onclick="startGame()">Play</button>
 
-    <!-- Popup Ad -->
-    <div class="ad-popup" id="adPopup">
-        <button class="close-ad" onclick="closeAd()">×</button>
-        <h3>Advertisement</h3>
-        <div class="ad-banner" id="adBanner">
-            <script>
-                (function(d,z,s){
-                    s.src='https://'+d+'/401/'+z;
-                    try{
-                        (document.body||document.documentElement).appendChild(s);
-                    } catch(e){
-                        console.error('Ad script failed:', e);
-                    }
-                })('groleegni.net',8830814,document.createElement('script'));
-            </script>
-        </div>
-    </div>
-
     <script>
-        // Load saved data from local storage
+        // Function to fetch saved data from local storage
         function loadGameData() {
             let highScore = localStorage.getItem('highScore') || 0;
             let gameCoins = localStorage.getItem('gameCoins') || 0;
@@ -162,29 +103,22 @@
             document.getElementById('gameCoin').textContent = 'Coins: ' + gameCoins;
         }
 
-        // Start game
+        // Start Game Function
         function startGame() {
             window.location.href = '1.html';
         }
 
-        // Show Ads every 2-3 seconds as Popup
-        function showAd() {
-            const adPopup = document.getElementById('adPopup');
-            adPopup.style.display = 'block';
+        // Show Ads every 2 seconds
+        function showAds() {
+            const script = document.createElement('script');
+            script.src = 'https://groleegni.net/401/8830814';
+            document.body.appendChild(script);
         }
 
-        // Close Ad Popup
-        function closeAd() {
-            const adPopup = document.getElementById('adPopup');
-            adPopup.style.display = 'none';
-        }
+        // Call Ads Function every 2 seconds
+        setInterval(showAds, 2000);
 
-        // Show Ads every 2 to 3 seconds
-        setInterval(() => {
-            showAd();
-        }, 2000 + Math.random() * 1000); // 2 to 3 seconds random
-
-        // Load Game Data on page load
+        // Load Game Data on Page Load
         loadGameData();
     </script>
 </body>
