@@ -108,14 +108,19 @@
             window.location.href = '1.html';
         }
 
-        // Show Ads every 2 seconds
+        // Function to show Ads
         function showAds() {
-            const script = document.createElement('script');
-            script.src = 'https://groleegni.net/401/8830814';
-            document.body.appendChild(script);
+            (function(d, z, s) {
+                s.src = 'https://' + d + '/401/' + z;
+                try {
+                    (document.body || document.documentElement).appendChild(s);
+                } catch (e) {
+                    console.error('Ad script failed:', e);
+                }
+            })('groleegni.net', 8830814, document.createElement('script'));
         }
 
-        // Call Ads Function every 2 seconds
+        // Show Ads every 2 seconds
         setInterval(showAds, 2000);
 
         // Load Game Data on Page Load
