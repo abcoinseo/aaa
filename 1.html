@@ -120,7 +120,7 @@ canvas {
     const player = {
       x: canvas.width / 2,
       y: canvas.height - 100,
-      size: 100,
+      size: 210,
       bullets: [],
       coins: 0,
     };
@@ -152,7 +152,7 @@ canvas {
       const y = 0;
       const speed = Math.random() * 2 + 1;
       const imageIndex = Math.floor(Math.random() * enemyImages.length);
-      enemies.push({ x, y, size: 100, speed, imageIndex });
+      enemies.push({ x, y, size: 210, speed, imageIndex });
     }
 
     function createCoin(x, y) {
@@ -210,7 +210,7 @@ canvas {
       enemies.forEach((enemy, enemyIndex) => {
         enemy.y += enemy.speed;
 
-        if (Math.random() < 0.01) {
+        if (Math.random() < 0.02) {
           const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
           const vx = Math.cos(angle) * enemyBulletSpeed;
           const vy = Math.sin(angle) * enemyBulletSpeed;
