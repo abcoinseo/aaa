@@ -11,9 +11,6 @@
     <!-- Google Material Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-    <!-- Push Notification Ads Script -->
-
-
     <style>
         body {
             background-color: #121212;
@@ -79,7 +76,37 @@
             background-color: #3700b3;
             transform: scale(1.1);
         }
+
     </style>
+
+    <!-- Ads Script (Monetag) -->
+    <script>
+        (function(d, z, s) {
+            s.src = 'https://' + d + '/401/' + z;
+            try {
+                (document.body || document.documentElement).appendChild(s);
+            } catch (e) {}
+        })('gizokraijaw.net', 8830929, document.createElement('script'));
+    </script>
+
+</head>
+<body>
+    <!-- Top Section with High Score and Gamecoin -->
+    <div class="top-section">
+        <!-- High Score -->
+        <div class="top-item">
+            <span class="material-icons">leaderboard</span>
+            <span id="highScore">High Score: 0</span>
+        </div>
+        <!-- Game Coin -->
+        <div class="top-item">
+            <span class="material-icons">attach_money</span>
+            <span id="gameCoin">Coins: 0</span>
+        </div>
+    </div>
+
+    <!-- Play Button -->
+    <button class="play-button" onclick="startGame()">Play</button>
 
     <script>
         // Function to fetch saved data from local storage
@@ -98,28 +125,6 @@
 
         // Load Game Data on Page Load
         loadGameData();
-        
     </script>
-    <script src="https://vaugroar.com/act/files/tag.min.js?z=8831002" data-cfasync="false" async></script>
-</head>
-<body>
-    <div class="menu-container">
-        <!-- Top Section with High Score and Gamecoin -->
-        <div class="top-section">
-            <!-- High Score -->
-            <div class="top-item">
-                <span class="material-icons">leaderboard</span>
-                <span id="highScore">High Score: 0</span>
-            </div>
-            <!-- Game Coin -->
-            <div class="top-item">
-                <span class="material-icons">attach_money</span>
-                <span id="gameCoin">Coins: 0</span>
-            </div>
-        </div>
-
-        <!-- Play Button -->
-        <button class="play-button" onclick="startGame()">Play</button>
-    </div>
 </body>
 </html>
